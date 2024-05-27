@@ -3,6 +3,8 @@ db_script/**
 system/**
 .editorconfig
 
+
+application/config/**
 application/cache/**
 application/core/**
 application/helpers/**
