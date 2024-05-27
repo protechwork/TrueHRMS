@@ -51,7 +51,7 @@
 								</a>
 								<ul class="nav nav-treeview">
 									<li class="nav-item">
-										<a href="<?php echo(site_url()); ?>index.php/DynamicForm/new_master_view" class="nav-link">
+										<a href="<?php echo(site_url()); ?>DynamicForm/new_master_view" class="nav-link">
 											<i class="far fa-circle nav-icon"></i>
 											<p>New Master</p>
 										</a>
@@ -62,7 +62,7 @@
 										foreach( $masterData as $row ) { ?>											
 									
 										<li class="nav-item">
-											<a href="<?php echo(site_url()); ?>index.php/DynamicForm/admin_lite/<?=$row['id']?>" class="nav-link">
+											<a href="<?php echo(site_url()); ?>DynamicForm/admin_lite/<?=$row['id']?>" class="nav-link">
 												<i class="far fa-circle nav-icon"></i>
 												<p><?=$row['caption']?></p>
 											</a>
