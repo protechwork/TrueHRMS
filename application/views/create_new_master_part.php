@@ -41,7 +41,7 @@
 											<thead>
 					<tr>
 						<th width="200">
-							<b><a onclick="AddRow()" href="#"  class="btn btn-success btn-xs add-row"><span class="fa fa-plus" aria-hidden="true"></span></a> Field Name</b>
+							<b><a onclick="AddRow(0)" href="#"  class="btn btn-success btn-xs add-row"><span class="fa fa-plus" aria-hidden="true"></span></a> Field Name</b>
 						</th>
 						<th width="200">
 							<b>Type</b>

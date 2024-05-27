@@ -110,7 +110,7 @@
 			var Totalrecord = 0;
        		var Processrecord = 0;
 
-			function AddRow ()
+			function AddRow (FiledID)
 			{
 				//alert($("#caption").val());
 				row_id++;
@@ -160,7 +160,7 @@
 						</td>
 
 						<td  style="padding: 0; margin: 0;">
-							<input id="filed_sequence`+row_id+`" type="text" class="form-control form-control-sm small-textbox seq-ids" arg1='`+row_id+`' arg2='0' style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+							<input id="filed_sequence`+row_id+`" type="text" class="form-control form-control-sm small-textbox seq-ids" arg1='`+row_id+`' arg2='`+FiledID+`' style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
 						</td>
 
 						</tr>`;
@@ -206,7 +206,7 @@
 				  
 				  $.each(masterFields, function(key, item) 
                   {			
-						AddRow ();				
+						AddRow (item.FileldID);				
 						console.log("key:" + key + "item:" + item);
 						$("#filed_name" + row_id).val(item.FieldName);
 						$("#filed_type" + row_id).val(item.Fieldtype);
@@ -287,7 +287,7 @@
                 formData.append("MasterName", $("#masterName").val());	
                 
                 $.ajax({ 
-                    url: '<?=base_url()?>index.php/DynamicForm/new_master_save', 
+                    url: '<?=base_url()?>DynamicForm/new_master_save', 
                     type: 'POST', 
                     processData: false, // tell jQuery not to process the data
                     contentType: false, // tell jQuery not to set contentType
