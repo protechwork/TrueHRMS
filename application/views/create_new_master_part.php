@@ -1,5 +1,10 @@
 <style>
-	.table td, .table th {
+	/*.table td, .table th {
+		padding : 0;
+		
+	}*/
+	
+	#invoice_table td, #invoice_table th {
 		padding : 0;
 		/*width:50%;*/
 	}
@@ -145,22 +150,24 @@
 									<!-- form start -->
 									
 										<div class="card-body">
-										<table border="1">
+										<table id="master_table" class="table table-bordered table-striped">
 											<thead>
 												<tr>
 												<th>ID</th>
 												<th>Name</th>
 												<th>Caption</th>
+												<th>Action</th>
 												</tr>
 											</thead>
 											<tbody>
 											<?php
 													$masterData = $CI->generic_repository->query("SELECT * FROM core_master");
 													foreach( $masterData as $row ) { ?>																							
-														<tr onclick="show_master(<?=$row["id"]?>)">
-															<td ><?=$row["id"]?></td>
-															<td><?=$row["name"]?></td>
-															<td><?=$row["caption"]?></td>
+														<tr>
+															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["id"]?></td>
+															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["name"]?></td>															
+															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["caption"]?></td>
+															<td><i class="fas fa-trash" onclick="DeleteMaster(<?=$row["id"]?>)"></i></td>
 														</tr>
 												<?php
 													}

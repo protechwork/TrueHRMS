@@ -497,6 +497,7 @@
 		<script>
 			$(function () {
 			  bsCustomFileInput.init();
+			 
 			});
 		</script>																								
 

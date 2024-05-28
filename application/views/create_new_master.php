@@ -58,10 +58,34 @@
 		<script src="<?php echo(site_url()); ?>alte320/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 		<!-- AdminLTE App -->
 		<script src="<?php echo(site_url()); ?>alte320/dist/js/adminlte.min.js"></script>
-		<!-- Page specific script -->
+		
+		<!-- DataTables  & Plugins -->
+		
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables/jquery.dataTables.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/jszip/jszip.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/pdfmake/pdfmake.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/pdfmake/vfs_fonts.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+		<script src="<?php echo(site_url()); ?>alte320/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+		
 		<script>
 			$(function () {
 			  bsCustomFileInput.init();
+
+			  $("#master_table").DataTable({
+				"responsive": true, "lengthChange": false, "autoWidth": false,
+				"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+				}).buttons().container().appendTo('#master_table_wrapper .col-md-6:eq(0)');
+
+				
 			});
 		</script>																								
 
@@ -170,13 +194,18 @@
 			}
 
 			function clear_form()
-			  {
-				
-					$("#caption").val("");
-					$("#masterName").val("");
-					$("#field_list").html("");
-					row_id=0;
-			  }
+			{
+			
+				$("#caption").val("");
+				$("#masterName").val("");
+				$("#field_list").html("");
+				row_id=0;
+			}
+
+			function DeleteMaster(MasterID)
+			{
+				alert();
+			}
 
 
 			function show_master(MasterID)
