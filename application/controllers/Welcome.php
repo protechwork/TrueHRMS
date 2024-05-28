@@ -21,5 +21,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('welcome_message');
+		echo CI_VERSION;
+		echo md5("rerrere");
 	}
 }
