@@ -7,7 +7,6 @@ system/**
 application/config/**
 application/cache/**
 application/core/**
-application/helpers/**
 application/language/**
 application/logs/**
 application/third_party/**
