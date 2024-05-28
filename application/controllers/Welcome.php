@@ -23,15 +23,19 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message');
 		echo CI_VERSION;
 		echo md5("rerrere");
-		custom_log_message('error', 'This is an error message.');
+		$ip = $_SERVER['REMOTE_ADDR'];
+		// $ip_address = $this->input->ip_address1();
+		// return $ip_address;
+		echo $this->input->ip_address();
+		custom_log_message('error', 'This is an error message.',$ip,1);
 		// Log a debug message
-        custom_log_message('debug', 'This is a debug message.');
+        custom_log_message('debug', 'This is a debug message.',$ip,1);
 
         // Log an informational message
-        custom_log_message('info', 'This is an informational message.');
-		custom_log_message('info', 'This is an informational message.');
+        custom_log_message('info', 'This is an informational message.',$ip,1);
+		custom_log_message('info', 'This is an informational message.',$ip,1);
 		
-		custom_log_message('info', 'Controller :- ' . $this->router->fetch_class() . ', Method :- ' . $this->router->fetch_method());
+		custom_log_message('info', 'Controller :- ' . $this->router->fetch_class() . ', Method :- ' . $this->router->fetch_method(),$ip,1);
 		$this->load->library('session');
 		$this->session->set_userdata('user_id', 123);
 		$this->session->set_userdata('username', 'john_doe');
