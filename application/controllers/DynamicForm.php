@@ -249,6 +249,67 @@ class DynamicForm extends CI_Controller {
         }
     }
 
+
+    public function master_submit()
+    {     
+        $this->load->library('generic_repository');
+
+        $PostData = $this->input->post();
+        $masterId = $PostData["MasterID"];
+        $masterName = $PostData["MasterName"];
+        $caption = $PostData["MasterCaption"];
+
+        //$data =  $this->db->query("select * from core_master where name='".$masterName."' ")->result_array(); 
+        $data =  $this->db->query("select * from core_master where id=".$masterId." ")->result_array(); 
+
+        if((count($data) > 0))
+        {
+            $update_values = array(
+                'name' => $masterName,                    
+                'caption' => $caption //its a variable
+            );  
+
+            $oldName = $data[0]["name"];
+
+            $this->generic_repository->update('core_master', $masterId, $update_values);
+            
+            if($oldName != $masterName)
+            {
+                $this->db->query("RENAME TABLE  `".$oldName."` TO  `".$masterName."`");
+            }
+            
+
+            header('Content-Type: application/json');
+            // Output the JSON data
+            echo json_encode(array(
+                "status" => 0,
+                "MasterID" => $masterId,
+                "dump_data" => $this->varDumpToString(count($data)),
+                "msg" => "Master Name is Already Found"
+            ));
+        }
+        else
+        {
+            $insert_values = array(
+                'name' => $masterName,                    
+                'caption' => $caption //its a variable
+            );  
+            $insert_qry = $this->db->insert('core_master', $insert_values);
+            $insertID  = $this->db->insert_id();
+            $this->create_master_table($insertID);
+            
+            header('Content-Type: application/json');
+            // Output the JSON data
+            echo json_encode(array(
+                "status" => 1,
+                "MasterID" => $insertID,
+                "msg" => "Data Inserted Successfully"
+            ));
+        }
+    }
+
+   
+
     public function create_master_table($MasterId)
     {
         $tableName =  $this->db->query("select * from core_master where id=".$MasterId)->result_array()[0]['name']; 

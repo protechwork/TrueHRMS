@@ -143,8 +143,8 @@
 									<div class="card-header">
 										<h3 class="card-title">Master</h3>
 
-										<button type = "button"  class="btn btn-primary add-btn"   data-toggle="modal" data-target="#modal-lg" style="float: right;margin: 0;padding: 0;background-color: white;color: black;width: 10%;">Create</button>
-										<button id="edit_master" type = "button"  class="btn btn-primary add-btn"   data-toggle="modal" data-target="#modal-lg" style="float: right;margin: 0;padding: 0;background-color: white;color: black;width: 10%;">Edit</button>
+										<button id="create_master" type = "button"  class="btn btn-primary add-btn"   data-toggle="modal" data-target="#modal-lg" style="float: right;margin: 0;padding: 0;background-color: white;color: black;width: 10%;">Create</button>
+										<!--<button id="edit_master" type = "button"  class="btn btn-primary add-btn"   data-toggle="modal" data-target="#modal-lg" style="float: right;margin: 0;padding: 0;background-color: white;color: black;width: 10%;">Edit</button>-->
 									</div>
 									<!-- /.card-header -->
 									<!-- form start -->
@@ -153,7 +153,7 @@
 										<table id="master_table" class="table table-bordered table-striped">
 											<thead>
 												<tr>
-												<th>ID</th>
+												<th>Master ID</th>
 												<th>Name</th>
 												<th>Caption</th>
 												<th>Action</th>

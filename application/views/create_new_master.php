@@ -100,6 +100,11 @@
 					show_master(2);
 			  });*/
 
+			  $("#create_master").click(function(){					
+					clear_form();
+					//show_master(2);
+			  });
+
             
               $("#btnSubmit").click(function(){
                 //var formData = new FormData($("#dynamicMaster")[0]);
@@ -130,7 +135,7 @@
             });
 
 			var row_id=0;
-			
+			var MASTER_ID = 0;
 			var Totalrecord = 0;
        		var Processrecord = 0;
 
@@ -200,11 +205,12 @@
 				$("#masterName").val("");
 				$("#field_list").html("");
 				row_id=0;
+				MASTER_ID =0;
 			}
 
 			function DeleteMaster(MasterID)
 			{
-				alert();
+				alert(MasterID);
 			}
 
 
@@ -212,7 +218,8 @@
 			  {
 				//alert("showing master");
 				clear_form();
-				$("#edit_master").click();
+				$("#create_master").click();
+				MASTER_ID=MasterID;
 				$.ajax({
                 type: "POST",
                 url: '<?=base_url()?>index.php/DynamicForm/get_master_by_master_id', 
@@ -241,9 +248,57 @@
 						$("#filed_type" + row_id).val(item.Fieldtype);
 						$("#filed_length" + row_id).val(item.MaxLength);
 						$("#filed_mandetory" + row_id).val(item.Mandatory);
-						$("#filed_default" + row_id).val(item.value);
-						$("#filed_master" + row_id).val(item.MasterId);
+
+						if(item.Fieldtype == "master")
+						{
+							//$("#filed_master" + row_id).val(item.value).trigger('change'); // otherwise create function for adding items to filed_master_display
+
+							$("#filed_master" + row_id).val(item.value);
+
+							$.ajax({
+								type: "POST",
+								url: '<?=base_url()?>DynamicForm/get_columns_by_master_id', 
+								data: {
+									master_id: item.value
+								},
+								dataType: "json",
+								success: function(response) {
+								// Handle the response from the server
+								console.log(response);
+								var options ="";
+								$("#filed_master_display" + row_id).html("");
+
+								$.each(response, function(key, item) 
+								{							
+										options = options + "<option value=" + item.FieldName + ">" + item.Caption + "</option>";
+								});
+
+								$("#filed_master_display" + row_id).html(options);
+
+								$("#filed_master_display" + row_id).val(item.master_values);
+
+								},
+								error: function() {
+								// Display error message
+								alert("An error occurred while updating Database.");
+								}
+							});
+
+
+							
+						}
+						else
+						{
+							$("#filed_default" + row_id).val(item.value);
+							$("#filed_master" + row_id).val(item.MasterId);
+						}
+
+						//$("#filed_default" + row_id).val(item.value);
+						//$("#filed_master" + row_id).val(item.MasterId);
+						//$("#filed_master" + row_id).val(item.value).trigger('change');
 						//$("#filed_master_display" + row_id).val(item.xxx);
+
+
 						$("#filed_sequence" + row_id).val(item.seqence);
                   });
 
@@ -312,11 +367,12 @@
 			function SaveMasterFileds ()
 			{
 				var formData = new FormData(); 
+                formData.append("MasterID", MASTER_ID);	
                 formData.append("MasterCaption", $("#caption").val());	
                 formData.append("MasterName", $("#masterName").val());	
                 
                 $.ajax({ 
-                    url: '<?=base_url()?>DynamicForm/new_master_save', 
+                    url: '<?=base_url()?>DynamicForm/master_submit', 
                     type: 'POST', 
                     processData: false, // tell jQuery not to process the data
                     contentType: false, // tell jQuery not to set contentType
