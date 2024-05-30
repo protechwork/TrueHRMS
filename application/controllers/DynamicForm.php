@@ -555,6 +555,25 @@ class DynamicForm extends CI_Controller {
         $this->load->view('dynamic_form_new', $data);
     }
 
+    public function get_data_by_imaster_id()
+    {
+        $this->load->library('generic_repository');
+
+        $something = $this->input->post();
+        $iMasterId = intval($something["iMasterId"]);
+        $masterId = $something["MasterId"];
+
+        $results =  $this->db->query("select * from core_master where id=".$masterId)->result_array(); 
+        $tableName = $results[0]['name'];
+
+        $fields =  $this->db->query("SELECT * FROM ".$tableName." WHERE iMasterId=".$iMasterId)->result_array(); 
+        $json_data = json_encode($fields);
+        // Set the response header to JSON
+        header('Content-Type: application/json');
+        // Output the JSON data
+        echo $json_data;
+    }
+
     public function submit() {
         $this->load->library('generic_repository');
         //$this->load->library('GenericRepository');
@@ -565,20 +584,34 @@ class DynamicForm extends CI_Controller {
         /*echo "controller called";
         print_arr($something);*/
 
+        $iMasterId = intval($something["iMasterId"]);
         $masterId = $something["MasterId"];
 
         $results =  $this->db->query("select * from core_master where id=".$masterId)->result_array(); 
 
+        unset($something["iMasterId"]);
         unset($something["MasterId"]);
 
         //$status = $this->db->insert($results[0]['name'], $something);
 
-        $insertId = $this->generic_repository->insert($results[0]['name'], $something);
+        $return_id = '';
+        if($iMasterId > 0)
+        {
+            //update it
+            $this->generic_repository->update_master($results[0]['name'], $iMasterId, $something);
+            $return_id = $iMasterId;
+        }
+        else
+        {
+            $return_id = $this->generic_repository->insert($results[0]['name'], $something);
+        }
+
+        
 
 
 
         //var_dump($something);
-        var_dump($insertId);
+        var_dump($return_id);
     }
 }
 ?>

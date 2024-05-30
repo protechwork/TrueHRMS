@@ -164,10 +164,10 @@
 													$masterData = $CI->generic_repository->query("SELECT * FROM core_master");
 													foreach( $masterData as $row ) { ?>																							
 														<tr>
-															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["id"]?></td>
-															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["name"]?></td>															
-															<td onclick="show_master(<?=$row["id"]?>)"><?=$row["caption"]?></td>
-															<td><i class="fas fa-trash" onclick="DeleteMaster(<?=$row["id"]?>)"></i></td>
+															<td><?=$row["id"]?></td>
+															<td><?=$row["name"]?></td>															
+															<td><?=$row["caption"]?></td>
+															<td><i class="fas fa-edit" onclick="show_master(<?=$row["id"]?>)"></i>&nbsp;<i class="fas fa-trash" onclick="DeleteMaster(<?=$row["id"]?>)"></i></td>
 														</tr>
 												<?php
 													}

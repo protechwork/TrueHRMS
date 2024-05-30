@@ -32,6 +32,12 @@ public function update($table, $id, $data) {
 }
 
 // Update a record
+public function update_master($table, $id, $data) {
+    $this->CI->db->where('iMasterId', $id);
+    $this->CI->db->update($table, $data);
+}
+
+// Update a record
 public function update_field($table, $FiledID, $data) {
     $this->CI->db->where('FileldID', $FiledID);
     $this->CI->db->update($table, $data);
