@@ -34,6 +34,8 @@
 			<link rel="stylesheet" href="<?php echo(site_url()); ?>alte320/plugins/dropzone/min/dropzone.min.css">
 
 
+			<!-- jQuery -->
+			<script src="<?php echo(site_url()); ?>alte320/plugins/jquery/jquery.min.js"></script>
 			<!-- Bootstrap 4 -->
 			<script src="<?php echo(site_url()); ?>alte320/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 			<!-- Select2 -->
@@ -58,8 +60,7 @@
 			<!-- AdminLTE App -->
 			<script src="<?php echo(site_url()); ?>alte320/dist/js/adminlte.min.js"></script>
 			<!-- AdminLTE for demo purposes -->
-			<!-- jQuery -->
-			<script src="<?php echo(site_url()); ?>alte320/plugins/jquery/jquery.min.js"></script>
+			
 	
 
 	</head>
