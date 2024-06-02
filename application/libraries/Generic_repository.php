@@ -31,6 +31,10 @@ public function update($table, $id, $data) {
     $this->CI->db->update($table, $data);
 }
 
+public function get_by_field($table,$field,$value,$fielddisplay) {
+    return $this->CI->db->select($fielddisplay)->get_where($table, [$field => $value])->row();
+}
+
 // Update a record
 public function update_master($table, $id, $data) {
     $this->CI->db->where('iMasterId', $id);
