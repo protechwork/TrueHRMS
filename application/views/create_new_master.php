@@ -520,7 +520,7 @@
                     contentType: false, // tell jQuery not to set contentType
                     data: formData, 
                     success: function (response) { 
-                        alert(response.msg); 
+                        //alert(response.msg); 
 						var MasterID = response.MasterID;
                         //seq-ids
 						$('.seq-ids').each(function () {
@@ -566,12 +566,13 @@
                     contentType: false, // tell jQuery not to set contentType
                     data: formData, 
                     success: function (response) { 
-                        alert('Your form has been sent successfully.'); 
+                        //alert('Your form has been sent successfully.'); 
                         console.log(response);
 						Processrecord++;
 						if (Totalrecord == Processrecord)
 						{
 							alert("Completed");
+							location.reload();
 						}
                     }, 
                     error: function (jqXHR, textStatus, errorThrown) { 

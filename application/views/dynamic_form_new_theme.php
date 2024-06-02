@@ -349,6 +349,7 @@
                     success: function (response) { 
                         alert('Your form has been sent successfully.'); 
                         console.log(response);
+						location.reload();
                     }, 
                     error: function (jqXHR, textStatus, errorThrown) { 
                         alert('Your form was not sent successfully.'); 
