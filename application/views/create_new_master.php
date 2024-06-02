@@ -102,6 +102,8 @@
 
 			  $("#create_master").click(function(){					
 					clear_form();
+					AddRow (0,0, 'sName');
+					AddRow (0,0, 'sCode');
 					//show_master(2);
 			  });
 
@@ -139,15 +141,79 @@
 			var Totalrecord = 0;
        		var Processrecord = 0;
 
-			function AddRow (FiledID)
+			function AddRow (FiledID, RemoveMode=1, DefaultName='')
 			{
 				//alert($("#caption").val());
 				row_id++;
-			var tableRow = `
+
+				var deleteButton = `<button onclick="RemoveRow('row_id`+row_id+`')" style="margin-top: 1px;float: left;"  class="btn btn-danger btn-sm removeRow small-textbox"><i   class="fas fa-times"></i></button>`;
+				var disabled = "";
+				var sysField = 0;
+
+				if(RemoveMode < 1) // means 0
+				{
+					deleteButton = '';
+					disabled = "disabled";
+					sysField = 1;
+				}
+				
+				var tableRow = `
 						<tr  id="row_id`+row_id+`" style="padding: 0; margin: 0;">						
 						<td  style="padding: 0; margin: 0;">
-							<button onclick="RemoveRow('row_id`+row_id+`')" style="margin-top: 1px;float: left;"  class="btn btn-danger btn-sm removeRow small-textbox"><i   class="fas fa-times"></i></button>
-							<input id="filed_name`+row_id+`" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+							`+deleteButton+`
+							<input id="filed_name`+row_id+`" value="`+DefaultName+`" `+disabled+` type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_type`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+								<option value="text">Text</option>
+								<option value="select">Select</option>
+								<option value="date">Date</option>
+								<option value="master">Master</option>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_length`+row_id+`" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+						
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_mandetory`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_default`+row_id+`" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;" name="data">
+						</td>
+						
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_master`+row_id+`" onchange="GetColumnNames(this, `+row_id+`)" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<?php foreach( $masterData as $row ) { 
+								?>
+								<option value="<?=$row["id"]?>"><?=$row["caption"]?></option>
+								<?php
+							}
+							?>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_master_display`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+							</select>
+						</td>
+
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_sequence`+row_id+`" type="text" class="form-control form-control-sm small-textbox seq-ids" arg1='`+row_id+`' arg2='`+FiledID+`' arg3='`+sysField+`' style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+
+						</tr>`;
+					
+						/*if(FiledID == -1)
+					{
+						var tableRow = `
+						<tr  id="row_id`+row_id+`" style="padding: 0; margin: 0;">						
+						<td  style="padding: 0; margin: 0;">							
+							<input id="filed_name`+row_id+`" value="sName" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
 						</td>
 						<td  style="padding: 0; margin: 0;">
 							<select id="filed_type`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
@@ -193,6 +259,59 @@
 						</td>
 
 						</tr>`;
+					}
+					if(FiledID == -2)
+					{
+						var tableRow = `
+						<tr  id="row_id`+row_id+`" style="padding: 0; margin: 0;">						
+						<td  style="padding: 0; margin: 0;">							
+							<input id="filed_name`+row_id+`" value="sCode" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_type`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+								<option value="text">Text</option>
+								<option value="select">Select</option>
+								<option value="date">Date</option>
+								<option value="master">Master</option>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_length`+row_id+`" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+						
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_mandetory`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_default`+row_id+`" type="text" class="form-control form-control-sm small-textbox"  style="padding: 0; margin: 0;" name="data">
+						</td>
+						
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_master`+row_id+`" onchange="GetColumnNames(this, `+row_id+`)" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<?php foreach( $masterData as $row ) { 
+								?>
+								<option value="<?=$row["id"]?>"><?=$row["caption"]?></option>
+								<?php
+							}
+							?>
+							</select>
+						</td>
+						<td  style="padding: 0; margin: 0;">
+							<select id="filed_master_display`+row_id+`" class="form-control form-control-sm small-textbox" name="option"  style="padding: 0; margin: 0;">
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+							</select>
+						</td>
+
+						<td  style="padding: 0; margin: 0;">
+							<input id="filed_sequence`+row_id+`" type="text" class="form-control form-control-sm small-textbox seq-ids" arg1='`+row_id+`' arg2='`+FiledID+`' style="padding: 0; margin: 0;width: -webkit-fill-available;" name="data">
+						</td>
+
+						</tr>`;
+					}*/
 
 			$("#field_list").append(tableRow);
 
@@ -218,7 +337,8 @@
 			  {
 				//alert("showing master");
 				clear_form();
-				$("#create_master").click();
+				//$("#create_master").click();
+				$('#modal-lg').modal('show');
 				MASTER_ID=MasterID;
 				$.ajax({
                 type: "POST",
@@ -241,8 +361,30 @@
 
 				  
 				  $.each(masterFields, function(key, item) 
-                  {			
-						AddRow (item.FileldID);				
+                  {		
+						if(item.Sysfld == 1)
+						{
+							AddRow (item.FileldID,0, item.FieldName);
+						}
+						else
+						{
+							AddRow (item.FileldID);		
+						}
+						/*if(key == 0)
+						{
+							//AddRow (0,0, 'sName');							
+							AddRow (0,0, item.FieldName);							
+						}
+						else if(key == 1)
+						{
+							//AddRow (0,0, 'sCode');
+							AddRow (0,0, item.FieldName);
+						}
+						else
+						{
+							AddRow (item.FileldID);		
+						}*/
+								
 						console.log("key:" + key + "item:" + item);
 						$("#filed_name" + row_id).val(item.FieldName);
 						$("#filed_type" + row_id).val(item.Fieldtype);
@@ -386,7 +528,7 @@
 							//alert($(this).attr("arg1"));
 							//alert($("#filed_name"+$(this).attr("arg1")).val());
 							//SavePendPo($(this).attr("arg1"), $(this).attr("arg2"), $(this).attr("arg3"), $(this).attr("arg4"), $(this).attr("arg5"), $(this).val());
-							SaveField (MasterID, $(this).attr("arg2"),  $("#filed_name"+$(this).attr("arg1")).val(), $("#filed_type"+$(this).attr("arg1")).val(), $("#filed_length"+$(this).attr("arg1")).val(), $("#filed_mandetory"+$(this).attr("arg1")).val(), $("#filed_default"+$(this).attr("arg1")).val(), $("#filed_master"+$(this).attr("arg1")).val(), $("#filed_master_display"+$(this).attr("arg1")).val(), $("#filed_sequence"+$(this).attr("arg1")).val());
+							SaveField (MasterID, $(this).attr("arg3"), $(this).attr("arg2"),  $("#filed_name"+$(this).attr("arg1")).val(), $("#filed_type"+$(this).attr("arg1")).val(), $("#filed_length"+$(this).attr("arg1")).val(), $("#filed_mandetory"+$(this).attr("arg1")).val(), $("#filed_default"+$(this).attr("arg1")).val(), $("#filed_master"+$(this).attr("arg1")).val(), $("#filed_master_display"+$(this).attr("arg1")).val(), $("#filed_sequence"+$(this).attr("arg1")).val());
 							Totalrecord++;
 						});	
                     }, 
@@ -398,9 +540,9 @@
 							
 			}
 
-			function SaveField (MasterID, FiledId,FiledName, FieldType, Length, Mendotary, DefaultValue, SelectMaster, DisplayFiled, Sequence)
+			function SaveField (MasterID, SysField, FiledId,FiledName, FieldType, Length, Mendotary, DefaultValue, SelectMaster, DisplayFiled, Sequence)
 			{
-				console.log(FiledName, FieldType, Length, Mendotary, DefaultValue, SelectMaster, DisplayFiled, Sequence);
+				console.log(FiledName, SysField, FieldType, Length, Mendotary, DefaultValue, SelectMaster, DisplayFiled, Sequence);
 
 				var formData = new FormData(); 
                 formData.append("MasterId", MasterID);	
@@ -412,8 +554,10 @@
                 formData.append("value", DefaultValue);	
                 formData.append("sequence", Sequence);	
 
+                formData.append("Sysfld", SysField);	
+
                 formData.append("master_names", SelectMaster);	
-                formData.append("display_field", DisplayFiled);	
+                formData.append("display_field", Disp      layFiled);	
                 
                 $.ajax({ 
                     url: '<?=base_url()?>index.php/DynamicForm/save_new_field', 

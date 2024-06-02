@@ -91,7 +91,7 @@ class DynamicForm extends CI_Controller {
 
 
         $masterData = $this->generic_repository->query("select * from core_master where id=".$masterID);
-        $masterField = $this->generic_repository->query("select * from FileldMst where MasterId=".$masterID);
+        $masterField = $this->generic_repository->query("select * from FileldMst where MasterId=".$masterID." ORDER BY Sysfld DESC");
         
         echo json_encode(array(
             "status" => 1,
@@ -358,6 +358,7 @@ class DynamicForm extends CI_Controller {
         $length = $PostData["length"];
         $value = $PostData["value"];
         $sequence = $PostData["sequence"];        
+        $Sysfld = $PostData["Sysfld"];        
 
         $tableData = array(
             //'caption' => $masterId,
@@ -368,6 +369,7 @@ class DynamicForm extends CI_Controller {
             'Fieldtype' => $filedType,
             'MaxLength' => $length,
             'value' => $value,
+            'Sysfld' => $Sysfld,
             'seqence' => $sequence 
         );  
 
