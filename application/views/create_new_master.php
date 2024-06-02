@@ -557,7 +557,7 @@
                 formData.append("Sysfld", SysField);	
 
                 formData.append("master_names", SelectMaster);	
-                formData.append("display_field", Disp      layFiled);	
+                formData.append("display_field", DisplayFiled);	
                 
                 $.ajax({ 
                     url: '<?=base_url()?>index.php/DynamicForm/save_new_field', 

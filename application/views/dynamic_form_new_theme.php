@@ -26,7 +26,7 @@
                     <div class="modal-body">
                     
                            
-							<form id="dynamicMaster">  
+							<!--<form id="dynamicMaster">  -->
 											<div class="container">
 											<div class="row">
 											<div class="col-md-12">
@@ -114,7 +114,7 @@
 											</div>
 											
                             <input type="text" hidden class="form-control" id="id" name="id" required>
-                                        </form>
+                                        <!--</form>-->
                             
                             
                         
