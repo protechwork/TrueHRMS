@@ -107,6 +107,32 @@
 					//show_master(2);
 			  });
 
+			  /*$(document).on('blur', '#caption', function() {
+	
+				var fieldValue = $(this).val();
+				//alert(fieldValue);		
+				$.ajax({
+					url: '<?php echo base_url("AjaxController/get_field_value"); ?>',
+					method: 'POST',
+					data: {
+						tableName: 'core_master',
+						fielddisplay: 'id',						
+						fieldName: 'caption',
+						fieldvalue: fieldValue
+					},
+					success: function(response) {
+						// Handle the response
+						console.log(response);
+						alert(response.id);
+					},
+					error: function(xhr, status, error) {
+						// Handle errors
+						console.error(xhr.responseText);
+					}
+				});
+
+			});*/
+
             
               $("#btnSubmit").click(function(){
                 //var formData = new FormData($("#dynamicMaster")[0]);
@@ -140,6 +166,32 @@
 			var MASTER_ID = 0;
 			var Totalrecord = 0;
        		var Processrecord = 0;
+
+			function ValidateMasterName()
+			{
+				var fieldValue = $("#masterName").val();
+				//alert(fieldValue);		
+				$.ajax({
+					url: '<?php echo base_url("AjaxController/get_field_value"); ?>',
+					method: 'POST',
+					dataType: "json",
+					data: {
+						tableName: 'core_master',
+						fielddisplay: 'id',						
+						fieldName: 'name',
+						fieldvalue: fieldValue
+					},
+					success: function(response) {
+						// Handle the response
+						console.log(response);
+						alert(response.id);
+					},
+					error: function(xhr, status, error) {
+						// Handle errors
+						console.error(xhr.responseText);
+					}
+				});
+			}
 
 			function AddRow (FiledID, RemoveMode=1, DefaultName='')
 			{
@@ -329,7 +381,24 @@
 
 			function DeleteMaster(MasterID)
 			{
-				alert(MasterID);
+				//alert(MasterID);
+				var formData = new FormData(); 
+                formData.append("MasterID", MasterID);	              
+                
+                $.ajax({ 
+                    url: '<?=base_url()?>DynamicForm/delete_master', 
+                    type: 'POST', 
+                    processData: false, // tell jQuery not to process the data
+                    contentType: false, // tell jQuery not to set contentType
+                    data: formData, 
+                    success: function (response) { 
+                        alert(response.msg); 	
+						location.reload();					
+                    }, 
+                    error: function (jqXHR, textStatus, errorThrown) { 
+                        alert('Your form was not sent successfully.'); 
+                    } 
+                }); 
 			}
 
 

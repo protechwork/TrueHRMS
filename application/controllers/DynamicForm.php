@@ -249,6 +249,64 @@ class DynamicForm extends CI_Controller {
         }
     }
 
+    public function delete_master()
+    {
+        try { 
+        $PostData = $this->input->post();
+        $masterId = $PostData["MasterID"];
+
+        $data =  $this->db->query("SELECT * FROM `fileldmst` where Fieldtype='master' AND value=".$masterId." ")->result_array(); 
+
+        header('Content-Type: application/json');
+        if((count($data) > 0))
+        {            
+            // Output the JSON data
+            echo json_encode(array(
+                "status" => 0,
+                "MasterID" => $masterId,
+                "dump_data" => $this->varDumpToString(count($data)),
+                "msg" => "Master is in used cannot be delete"
+            ));
+        }
+        else
+        {
+            $tableName = $this->db->query("SELECT * FROM core_master WHERE id=".$masterId)->result_array()[0]["name"]; 
+
+            $count =  $this->db->query("SELECT count(*) as cnt FROM ".$tableName)->result_array()[0]["cnt"]; 
+
+            if ($count > 0)
+            {   
+                echo json_encode(array(
+                    "status" => 0,
+                    "MasterID" => $masterId,
+                    "dump_data" => $this->varDumpToString($count),
+                    "msg" => "Master table is not empty cannot delete"
+                ));
+            }
+            else
+            {
+                $this->db->query("DELETE FROM fileldmst WHERE MasterId=".$masterId);
+                $this->db->query("DELETE FROM core_master WHERE id=".$masterId);
+                $this->db->query("DROP TABLE ".$tableName);
+
+                echo json_encode(array(
+                    "status" => 0,
+                    "MasterID" => $masterId,
+                    "dump_data" => $this->varDumpToString(count($data)),
+                    "msg" => "Master table is empty can be delete"
+                ));
+            }           
+        }
+    } catch (Exception $e) {
+        //alert the user.
+        //var_dump($e->getMessage());
+        echo json_encode(array(
+            "status" => 0,           
+            "msg" => $e->getMessage()
+        ));
+      }
+    }
+
 
     public function master_submit()
     {     
@@ -555,6 +613,31 @@ class DynamicForm extends CI_Controller {
         $data['fields'] = $viewdata;        
         $data['masterID'] = $MasterId;        
         $this->load->view('dynamic_form_new', $data);
+    }
+
+    public function delete_data_by_imaster_id()
+    {
+        $this->load->library('generic_repository');
+
+        $something = $this->input->post();
+        $iMasterId = intval($something["iMasterId"]);
+        $masterId = $something["MasterId"];
+
+        $results =  $this->db->query("select * from core_master where id=".$masterId)->result_array(); 
+        $tableName = $results[0]['name'];
+
+        $this->db->query("DELETE FROM ".$tableName." WHERE iMasterId=".$iMasterId); 
+       
+        // Set the response header to JSON
+        header('Content-Type: application/json');
+        // Output the JSON data
+        //echo $json_data;
+        echo json_encode(array(
+            "status" => 1,
+            "query" => "DELETE FROM ".$tableName." WHERE iMasterId=".$iMasterId,            
+            "iMasterID" => $iMasterId,
+            "msg" => "Data Deleted Successfully"
+        ));
     }
 
     public function get_data_by_imaster_id()

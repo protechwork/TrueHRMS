@@ -208,7 +208,7 @@
 																	}
 																?>                                                         
                                                 			<?php endforeach; ?>
-															<td><i class="fas fa-edit" onclick="EditMaster('<?=$row['iMasterId'];?>')"></i>&nbsp;<i class="fas fa-trash"></i></td>
+															<td><i class="fas fa-edit" onclick="EditMaster('<?=$row['iMasterId'];?>')"></i>&nbsp;<i class="fas fa-trash" onclick="DeleteMaster('<?=$row['iMasterId'];?>')"></i></td>
 														</tr>
 													<?php endforeach; ?>
 												</tbody>
@@ -362,26 +362,51 @@
               
             });
 
+			function DeleteMaster(IMasterId)
+			{								
+				var formData = new FormData(); 
+
+				formData.append("iMasterId", IMasterId);	
+				formData.append("MasterId", <?=$masterID?>);	
+
+				$.ajax({ 
+					url: '<?=base_url()?>DynamicForm/delete_data_by_imaster_id', 
+					type: 'POST', 
+					processData: false, // tell jQuery not to process the data
+					contentType: false, // tell jQuery not to set contentType
+					data: formData, 
+					success: function (response) { 
+						//alert('Your form has been sent successfully.'); 
+						console.log(response);
+						alert(response.msg);
+						location.reload();
+					}, 
+					error: function (jqXHR, textStatus, errorThrown) { 
+						alert('Your form was not sent successfully.'); 
+					} 
+				}); 
+			}
+
 			function EditMaster(IMasterId)
-			  {				
+			{				
 				iMasterId = IMasterId;
 				//$("#modal_view").trigger('click'); 
 				$('#modal-lg').modal('show');
 
 				var formData = new FormData(); 
 
-                formData.append("iMasterId", iMasterId);	
-                formData.append("MasterId", <?=$masterID?>);	
+				formData.append("iMasterId", iMasterId);	
+				formData.append("MasterId", <?=$masterID?>);	
 
 				$.ajax({ 
-                    url: '<?=base_url()?>DynamicForm/get_data_by_imaster_id', 
-                    type: 'POST', 
-                    processData: false, // tell jQuery not to process the data
-                    contentType: false, // tell jQuery not to set contentType
-                    data: formData, 
-                    success: function (response) { 
-                        //alert('Your form has been sent successfully.'); 
-                        console.log(response);
+					url: '<?=base_url()?>DynamicForm/get_data_by_imaster_id', 
+					type: 'POST', 
+					processData: false, // tell jQuery not to process the data
+					contentType: false, // tell jQuery not to set contentType
+					data: formData, 
+					success: function (response) { 
+						//alert('Your form has been sent successfully.'); 
+						console.log(response);
 
 						$.each(response[0], function(key, val) {
 							if(key != "iMasterId")
@@ -391,17 +416,12 @@
 							}							
 						});
 
-                    }, 
-                    error: function (jqXHR, textStatus, errorThrown) { 
-                        alert('Your form was not sent successfully.'); 
-                    } 
-                }); 
-
-
-
-
-
-			  }
+					}, 
+					error: function (jqXHR, textStatus, errorThrown) { 
+						alert('Your form was not sent successfully.'); 
+					} 
+				}); 
+			}
         </script>
 
 	</body>

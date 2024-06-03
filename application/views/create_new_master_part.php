@@ -34,7 +34,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="Master Name">Master Name</label>
-                                                        <input type="text" class="form-control" name="masterName" id="masterName" value="">
+                                                        <input type="text" class="form-control" onfocusout="ValidateMasterName()" name="masterName" id="masterName" value="">
                                                     </div>
                                                 </div>
 											</div>
